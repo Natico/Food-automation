@@ -7,48 +7,62 @@
 4 - این قطعه کد تخت هیچ لایسنسی نمی باشد :)
 5 - انتخاب اشتباه و استفاده ناصحیح از این قطعه کد هیچگونه مسئولیتی را به دوش برنامه نویس نمی اندازد ، پس بعد از استفاده حتما منو های غذا را چک فرمایید .
 6 - پیگیری جهت رفع باگ یا گسترش این قطعه کد ، فقط از طریق آدرس گیت زیر صورت خواهد پذیرفت 
+7 - خیلی جاها با روش های بسیار عجیب غریب کد زده شده ، به خاطر اینکه برنامه نویس سامانه خیلی عجیب و غریب کد زده بود و کاریش هم نمیشد کرد. باید در برابر کد عجیب ، کد عجیب زد .
+8 - تو فایل متنی کنار این فایل سعی میکنم یه سری کد های غذا ها و .. رو براتون بیارم ، قول ندادم ، گفتم سعی میکنم .
 
 git : https://github.com/Natico/Food-automation.git
 */
 
-var tabsReserve = $('.nav-tabs-reserve >.tab-content >.tab-pane'); //این خط 
+/* این خط برای پیدا کردن قسمت روز هاست */
+var tabsReserve = $('.nav-tabs-reserve >.tab-content >.tab-pane');
+
+/* این خط برای اشخاصی هست که دوست دارن فقط سالاد بخورن ، اگر سالاد نمیخواید میتونید مقدارش رو 
+false 
+بزارید  تا اولین گزینه از منو انتخاب بشه 
+*/
 var onlySalad = true;
 
+/* این قسمت هم داره روی بخش روز ها حلقه میزنه و روز به روز چک میکنه و میره جلو تا انتخاب ها رو انجام بده */
+tabsReserve.each(function (index, item, list) {
 
-tabsReserve.each(function(index, item, list) {
-
+    /* این قسمت هم داره با استفاده از ایندکس روز ها چک میکنه که 5شنبه و جمعه رو انتخاب نکنه ، میتونید این رو لیست بدید و فقط اون روز ها رو انتخاب کنه . */
     if (index < 1) {
+
+        /* باکس های توی هر روز رو پیدا میکنه ، همون غذا و دسر و ... */
         var boxs = $(item).find('.box');
 
-        boxs.each(function(index, box, list) {
-            var typeVal = null;
-            var foodVal = null;
-            var selfVal = "number:3"
+        /* حلقه میزنه روز باکس ها که همیشه 3 تا هستن ، همون هایی که بالا پیدا کرده  */
+        boxs.each(function (index, box, list) {
 
+            /**  اینجا هم داره مقادیر آپشن های توی دراپ دان ها رو تعریف میکنه که بر اساس باکس ها بهشون مقدار دهی کنه */
+            var typeVal = null; //(غذا-دسر - نوشیدنی) دراپ دان اول هر باکس مربوط به نوع
+            var foodVal = null; // دراپ دان دوم هر باکس مربوط به غذا ها - سالاد و قورمه سبزی و 
+            var selfVal = "number:3" // دراپ دان سوم هر باکس ، کجا بدن خدمتتون که میل بفرمایید . در حال حاضر "نوآوری سوم" با کد روبرو ست شده.
+
+            /* اینجا هم بر اساس ایندکس باکس ها ، میاد مقادیر دراپدان ها رو ست میکنه ، میتونید هر چی دوست داشتید بزارید */
             switch (index) {
-            case 0:
-                typeVal = "number:1";
-                //foodVal = "number:45";
-                break;
-            case 1:
-                typeVal = "number:3";
-                foodVal = "number:43";
-                break;
-            case 2:
-                typeVal = "number:2";
-                foodVal = "number:45";
-                break;
+                case 0: // این برای باکس غذا هستش
+                    typeVal = "number:1"; // داره تو نوع گزینه غذا رو انتخاب میکنه
+                    //foodVal = "number:45";
+                    break;
+                case 1: // این برای باکس نوشیدنی هستش
+                    typeVal = "number:3";// داره تو نوع گزینه نوشیدنی رو ست میکنه
+                    foodVal = "number:43"; // داره تو غذا گزینه دلستر رو انتخاب میکنه 
+                    break;
+                case 2: // این برای باکس دسر هستش
+                    typeVal = "number:2"; // داره تو نوع گزینه دسر رو ست میکنه
+                    foodVal = "number:45"; // داره تو غذا گزینه ماست رو انتخاب میکنه
+                    break;
             }
 
-            console.log(typeVal, foodVal, selfVal)
-
+            /* اینجا هم توضیحاتش فنی میشه ، بیخیال شو فقط همون بالایی ها به دردت میخوره ، اگر هم برنامه نویس هستی که بشین بخون متوجه میشی چیز سختی نیست  :)) */
             if (index == 0) {
                 debugger;
                 let selectedOtionIndex = 1
-                if(onlySalad){
+                if (onlySalad) {
                     selectedOtionIndex = $(box).find('select#selectFood')[0].options.length - 1;
                 }
-                
+
                 $(box).find('select#selectFood')[0].selectedIndex = selectedOtionIndex;
                 $(box).find('select#selectFood').change();
 
@@ -65,3 +79,4 @@ tabsReserve.each(function(index, item, list) {
 
 })
 
+/*    امیدوارم هر چه زودتر این سامانه ردیف بشه که مجبور نشی از این استفاده کنی  */
