@@ -26,7 +26,7 @@ var onlySalad = true;
 tabsReserve.each(function (index, item, list) {
 
     /* این قسمت هم داره با استفاده از ایندکس روز ها چک میکنه که 5شنبه و جمعه رو انتخاب نکنه ، میتونید این رو لیست بدید و فقط اون روز ها رو انتخاب کنه . */
-    if (index < 1) {
+    if (index < 5) {
 
         /* باکس های توی هر روز رو پیدا میکنه ، همون غذا و دسر و ... */
         var boxs = $(item).find('.box');
@@ -72,7 +72,7 @@ tabsReserve.each(function (index, item, list) {
                 $(box).find('select#selectFood').val(foodVal);
             }
 
-            $(box).find('select#selectSelf').val(selfVal);
+            $(box).find('select#selectSelf').val(selfVal).change();
 
         })
     }
